@@ -1,30 +1,31 @@
 project(qpulsedevicelistfetcher)
-cmake_minimum_required(VERSION 3.0.0)
-
-include(FindPkgConfig)
-
-find_package(
-    Qt5
-    REQUIRED
-        Widgets
-)
+cmake_minimum_required(VERSION 3.5.0)
 
 find_library(
     PULSE_LIBRARY
     NAMES
         pulse
 )
+find_package(
+    Qt5
+    COMPONENTS
+        Widgets
+    REQUIRED
+)
 
 set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-set(CMAKE_AUTOUIC ON)
 set(MOCUIC_DIR ${CMAKE_CURRENT_BINARY_DIR}/.mocuic)
-set(QPULSEDEVICELISTFETCHER_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
 
 add_executable(
     qpulsedevicelistfetcher
-        src/main.cpp
+        demo/demo.cpp
         src/qpulsedevicelistfetcher.cpp
+)
+
+target_include_directories(
+    qpulsedevicelistfetcher
+    PRIVATE
+        src/
 )
 
 set_target_properties(
@@ -32,8 +33,6 @@ set_target_properties(
     PROPERTIES
         AUTOGEN_BUILD_DIR
             ${MOCUIC_DIR}
-        RUNTIME_OUTPUT_DIRECTORY
-            ${QPULSEDEVICELISTFETCHER_BINARY_DIR}
 )
 
 target_link_libraries(
